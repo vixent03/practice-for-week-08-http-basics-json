@@ -17,6 +17,7 @@ const products = JSON.parse(fs.readFileSync('./seeds/products.json'));
 const reviews = JSON.parse(fs.readFileSync('./seeds/reviews.json'));
 
 let nextProductId = 2;
+
 let nextReviewId = 2;
 
 class NotFoundError extends Error {
@@ -113,7 +114,7 @@ app.get('/products/:productId', (req, res) => {
   });
   const productReviews = Object.values(reviews)
     .filter(review => review.productId == productId);
-  
+
   const data = {
     product: {
       ...product,
@@ -135,7 +136,7 @@ app.post('/products', (req, res) => {
   if (!Array.isArray(productCategories)) {
     productCategories = [productCategories];
   }
-  
+
   productCategories.forEach(categoryTag => {
     const category = categories[categoryTag];
     if (!category) {
@@ -164,7 +165,7 @@ app.get('/products/:productId/edit', (req, res) => {
   if (!product) {
     throw new NotFoundError('Product not found');
   }
-  
+
   const data = {
     product,
     categories
@@ -267,7 +268,7 @@ app.get('/reviews/:reviewId/edit', (req, res) => {
   }
 
   const product = products[review.productId];
-  
+
   const data = {
     review,
     product,
@@ -351,7 +352,7 @@ app.use("/assets", express.static("assets", {
 
 app.use((req, res) => {
   res.status(404);
-  
+
   const data = {
     title: "404 - Page Not Found",
     categories
